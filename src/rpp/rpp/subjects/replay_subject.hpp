@@ -133,7 +133,7 @@ namespace rpp::subjects::details
                 // A dirty workaround to always get the latest size in each iteration.
                 const auto& values = locked->get_actual_values();
                 for (int idx = 0; idx < values.size(); idx++)
-                    observer.on_next(std::move(values[idx].value));
+                    observer.on_next(values[idx].value);
                 locked->on_subscribe(std::forward<TObs>(observer));
             });
         }
