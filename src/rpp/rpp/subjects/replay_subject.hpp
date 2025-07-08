@@ -130,8 +130,10 @@ namespace rpp::subjects::details
         {
             return create_subject_on_subscribe_observable<Type, optimal_disposables_strategy>([state = m_state]<rpp::constraint::observer_of_type<Type> TObs>(TObs&& observer) {
                 const auto locked = state.lock();
-                for (auto&& value : locked->get_actual_values())
-                    observer.on_next(std::move(value.value));
+                // A dirty workaround to always get the latest size in each iteration.
+                const auto& values = locked->get_actual_values();
+                for (int idx = 0; idx < values.size(); idx++)
+                    observer.on_next(std::move(values[idx].value));
                 locked->on_subscribe(std::forward<TObs>(observer));
             });
         }
