@@ -55,7 +55,7 @@ namespace rpp::subjects::details
             };
 
 
-            std::deque<value_with_time> get_actual_values()
+            std::deque<value_with_time>& get_actual_values()
             {
                 std::unique_lock lock{m_values_mutex};
                 deduce_timepoint();
